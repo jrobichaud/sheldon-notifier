@@ -5,7 +5,7 @@
 ## Prerequisites
 
 ```bash
-gem install terminal-notifier
+brew install terminal-notifier
 ```
 
 ## Installation
