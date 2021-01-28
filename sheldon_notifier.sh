@@ -12,6 +12,9 @@ function _sheldon_notify {
     Apple_Terminal)
       local terminal_id="com.apple.Terminal"
       ;;
+    vscode)
+      local terminal_id="com.microsoft.VSCode"
+      ;;
     *)
       local terminal_id=""
       ;;
