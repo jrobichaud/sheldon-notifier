@@ -5,6 +5,11 @@ _sheldon_base_dir=$(dirname "$0")
 function _sheldon_notify {
   local command_result=$1
   local command=$2
+
+  if [ -z "$command" ]; then
+    return 0
+  fi
+
   case ${TERM_PROGRAM} in
     iTerm.app)
       local terminal_id="com.googlecode.iterm2"
@@ -16,13 +21,9 @@ function _sheldon_notify {
       local terminal_id="com.microsoft.VSCode"
       ;;
     *)
-      local terminal_id=""
+      return 0
       ;;
   esac
-
-  if [ -z "$command" ]; then
-    return 0
-  fi
 
   local focused_app_id=$(osascript -e 'id of application (path to frontmost application as text)')
 
@@ -31,7 +32,6 @@ function _sheldon_notify {
   fi
 
   if [ ${command_result} -eq 0 ]; then
-    reattach-to-user-namespace \
       terminal-notifier \
       -title "Command Succeeded" \
       -subtitle "$command" \
@@ -40,7 +40,6 @@ function _sheldon_notify {
       -sender ${terminal_id} \
       -contentImage "$_sheldon_base_dir/success.png"
   else
-    reattach-to-user-namespace \
       terminal-notifier \
       -title "Command Failed" \
       -subtitle "$command" \
